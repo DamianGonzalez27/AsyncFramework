@@ -1,0 +1,64 @@
+[project]
+name = "kerberus-devops"
+package-mode = false
+version = "1.0.0"
+description = "Proyecto para automatizacion y monitoreo de despliegues"
+authors = [
+    {name = "damian27goa@gmail.com"}
+]
+
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "boto3 (>=1.40.9,<2.0.0)",
+    "rich (>=14.1.0,<15.0.0)",
+    "prompt-toolkit (>=3.0.51,<4.0.0)",
+    "pyyaml (>=6.0.2,<7.0.0)",
+    "pika (>=1.3.2,<2.0.0)",
+    "flask (>=3.1.2,<4.0.0)",
+    "pydantic (>=2.11.7,<3.0.0)",
+    "jira (>=3.10.5,<4.0.0)",
+    "elasticsearch (>=9.1.0,<10.0.0)",
+    "sqlalchemy (>=2.0.43,<3.0.0)",
+    "pymysql (>=1.1.2,<2.0.0)",
+    "python-dotenv (>=1.1.1,<2.0.0)",
+    "alembic (>=1.16.5,<2.0.0)",
+    "psycopg2-binary (>=2.9.10,<3.0.0)",
+    "dependency-injector (>=4.48.1,<5.0.0)",
+    "gunicorn (>=23.0.0,<24.0.0)",
+    "pandas (>=2.3.3,<3.0.0)",
+    "openpyxl (>=3.1.5,<4.0.0)",
+    "psycopg (>=3.3.2,<4.0.0)",
+    "logger-tracker (==1.0.11)",
+    "global-handler (==1.0.3)",
+    "config-mounter (==1.0.0)",
+    "global-repository (==1.0.0)",
+    "aio-pika (>=9.5.0,<10.0.0)",
+    "aiokafka (>=0.12.0,<1.0.0)",
+    "hiredis (>=3.1.0,<4.0.0)"
+]
+
+[tool.poetry]
+packages = [
+    { include = "src" },
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.1"
+pytest-cov = "^7.0.0"
+
+[tool.poetry.scripts]
+deploy= "src.scripts.deploy_stack:deploy_cli"
+deploy_all= "src.scripts.deploy_stack:deploy_complete_stacks"
+server = "src.scripts.run_server:run_server"
+worker = "src.scripts.run_worker:run_worker"
+jira = "src.scripts.deploy_stack:get_jira_issues"
+ecr = "src.scripts.ecr_report:create_report"
+clean_pool = "src.scripts.clean_cognito:delete_all_users"
+clean_dynamo = "src.scripts.clean_dynamo:clear_dynamodb_table"
+list_infra = "src.scripts.list_infra:main"

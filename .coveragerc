@@ -1,0 +1,13 @@
+[run]
+branch = True
+source = src
+
+[report]
+omit =
+    src/clients/*
+    src/models/*
+    src/scripts/*
+    src/config.py
+    src/containers.py
+    src/decorators/error_handler.py
+    */__init__.py

@@ -1,0 +1,13 @@
+.vscode
+.idea
+aws_infra_list
+.github
+**/__pycache__/
+htmlcov
+**/.pytest_cache/
+**/.mypy_cache/
+**/*.csv
+**/*.xlsx
+config.yml
+.venv
+**/.venv
