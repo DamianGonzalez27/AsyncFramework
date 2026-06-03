@@ -1,19 +1,11 @@
-from flask import Flask
+"""Módulos de dominio del proyecto.
 
-from src.modules.clients.controllers import api_blueprint as clients_blueprint
-from src.modules.payments.controllers import api_blueprint as payments_blueprint
-from src.modules.products.controllers import api_blueprint as products_blueprint
-from src.modules.users.controllers import api_blueprint as users_blueprint
+Cada submódulo contiene sus propias reglas de negocio,
+servicios, repositorios y modelos de datos.
 
-MODULE_BLUEPRINTS = [
-    clients_blueprint,
-    payments_blueprint,
-    products_blueprint,
-    users_blueprint,
-]
-
-
-def register_blueprints(app: Flask) -> None:
-    """Registra los blueprints de cada módulo en la aplicación."""
-    for blueprint in MODULE_BLUEPRINTS:
-        app.register_blueprint(blueprint)
+Para agregar un nuevo módulo:
+    1. Crear carpeta en src/modules/<nombre>/
+    2. Definir modelos de dominio
+    3. Implementar servicios con la lógica de negocio
+    4. Crear handlers para procesar eventos del dominio
+"""

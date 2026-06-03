@@ -44,10 +44,6 @@ CAPABILITIES = ['CAPABILITY_IAM', 'CAPABILITY_NAMED_IAM', 'CAPABILITY_AUTO_EXPAN
 
 DEBUG = os.environ.get("DEBUG", "False").lower() in ("true", "1", "t")
 
-HOST = os.environ.get("HOST", "0.0.0.0")
-
-PORT = os.environ.get("PORT", 8080)
-
 # Worker
 WORKER_OUTBOX_POLL_INTERVAL = int(os.environ.get("WORKER_OUTBOX_POLL_INTERVAL", 5))
 WORKER_RABBITMQ_PREFETCH = int(os.environ.get("WORKER_RABBITMQ_PREFETCH", 20))

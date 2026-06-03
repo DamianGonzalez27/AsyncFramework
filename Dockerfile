@@ -25,9 +25,4 @@ COPY . /app
 
 #COPY ../.aws/ /.aws/
 
-# Expone puerto Flask (opcional si también se usa como web)
-EXPOSE 5000
-
-# Por defecto ejecuta el worker asíncrono
-# Para ejecutar el servidor web, usar: docker run --entrypoint poetry <img> run gunicorn ...
 CMD ["poetry", "run", "worker"]

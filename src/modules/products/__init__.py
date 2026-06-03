@@ -1,5 +1,4 @@
-"""Módulo de productos con estructura de ejemplo."""
+"""Módulo de productos con estructura de ejemplo.
 
-from src.modules.products.controllers import api_blueprint
-
-__all__ = ["api_blueprint"]
+Contiene servicios y modelos para la gestión de productos.
+"""

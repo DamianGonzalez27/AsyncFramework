@@ -1,6 +1,9 @@
 """
 Script de entrada para ejecutar el worker asíncrono.
 
+El worker consume eventos de RabbitMQ y los despacha a los
+handlers de cada módulo de dominio para su procesamiento.
+
 Usage:
     poetry run worker
     python -m src.scripts.run_worker
@@ -15,6 +18,7 @@ from logger_tracker import logg_info, logg_error
 
 from src.config import DEBUG
 from src.worker.worker_container import WorkerContainer
+from src.modules.handlers import dispatch
 
 
 container: WorkerContainer = None
@@ -23,6 +27,7 @@ container: WorkerContainer = None
 async def handle_message(body: Dict[str, Any], headers: Dict[str, str]) -> None:
     event_id = headers.get("event_id", "unknown")
     correlation_id = headers.get("correlation_id", "")
+    event_type = body.get("event_type", "unknown")
 
     if correlation_id:
         await container.idempotency.try_acquire(
@@ -30,23 +35,27 @@ async def handle_message(body: Dict[str, Any], headers: Dict[str, str]) -> None:
             ttl=container.idempotency.ttl,
         )
 
-    event_type = body.get("event_type", "unknown")
-    aggregate_type = body.get("aggregate_type", "unknown")
-    aggregate_id = body.get("aggregate_id", "unknown")
-
     logg_info(
         f"Processing event: {event_type} "
-        f"[aggregate={aggregate_type}:{aggregate_id}, "
-        f"correlation_id={correlation_id}]"
+        f"[event_id={event_id}, correlation_id={correlation_id}]"
     )
 
+    # Publicar siempre a Kafka para trazabilidad
     await container.kafka_publisher.publish_event(
         event_type=event_type,
-        aggregate_type=aggregate_type,
-        aggregate_id=aggregate_id,
+        aggregate_type=body.get("aggregate_type", "unknown"),
+        aggregate_id=body.get("aggregate_id", "unknown"),
         correlation_id=correlation_id,
         payload=body.get("data", body),
         event_id=event_id,
+    )
+
+    # Despachar al handler del módulo correspondiente
+    await dispatch(
+        event_type=event_type,
+        payload=body.get("data", body),
+        event_id=event_id,
+        correlation_id=correlation_id,
     )
 
     await container.idempotency.mark_processed(
