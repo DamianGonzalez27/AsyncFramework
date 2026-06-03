@@ -9,7 +9,7 @@ authors = [
 
 license = {text = "MIT"}
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = "==3.13.13"
 dependencies = [
     "boto3 (>=1.40.9,<2.0.0)",
     "rich (>=14.1.0,<15.0.0)",
@@ -32,9 +32,9 @@ dependencies = [
     "global-handler (==1.0.5)",
     "config-mounter (==1.0.0)",
     "global-repository (==1.0.0)",
-    "aio-pika (>=9.5.0,<10.0.0)",
-    "aiokafka (>=0.12.0,<1.0.0)",
-    "hiredis (>=3.1.0,<4.0.0)"
+    "aio-pika (==9.5.0)",
+    "aiokafka (>=0.12.0)",
+    "hiredis (>=3.1.0)"
 ]
 
 [tool.poetry]
@@ -51,11 +51,4 @@ pytest = "^8.4.1"
 pytest-cov = "^7.0.0"
 
 [tool.poetry.scripts]
-deploy= "src.scripts.deploy_stack:deploy_cli"
-deploy_all= "src.scripts.deploy_stack:deploy_complete_stacks"
 worker = "src.scripts.run_worker:run_worker"
-jira = "src.scripts.deploy_stack:get_jira_issues"
-ecr = "src.scripts.ecr_report:create_report"
-clean_pool = "src.scripts.clean_cognito:delete_all_users"
-clean_dynamo = "src.scripts.clean_dynamo:clear_dynamodb_table"
-list_infra = "src.scripts.list_infra:main"

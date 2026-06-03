@@ -34,6 +34,7 @@ class AsyncRabbitMQAdapter:
                 password=self.password,
                 virtualhost=self.vhost,
             )
+            logg_info(f"Connected to Async RabbitMQ at {self.host}:{self.port}")
             self.channel = await self.connection.channel()
             await self.channel.set_qos(prefetch_count=self.prefetch_count)
             logg_info(f"✓ Async RabbitMQ connected: {self.host}:{self.port}")
