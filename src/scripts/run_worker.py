@@ -8,15 +8,15 @@ Usage:
     poetry run worker
     python -m src.scripts.run_worker
 """
+from src.config import DEBUG
 
 import asyncio
+import os
 import signal
 import sys
 from typing import Any, Dict
 
 from logger_tracker import logg_info, logg_error
-
-from src.config import DEBUG
 from src.worker.worker_container import WorkerContainer
 from src.modules.handlers import dispatch
 
@@ -108,6 +108,7 @@ async def amain() -> None:
 
 def run_worker() -> None:
     try:
+        logg_info(f"Initializing worker...{os.environ.get('LOG_LEVEL', 'TEST')}")
         asyncio.run(amain())
     except KeyboardInterrupt:
         logg_info("Worker interrupted by user")
